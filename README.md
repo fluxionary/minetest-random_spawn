@@ -1,3 +1,3 @@
 # random_spawn
 
-TODO: write a description
+chooses a new spawn location for every new player.
