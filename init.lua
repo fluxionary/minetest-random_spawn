@@ -96,6 +96,14 @@ minetest.register_on_joinplayer(function(player, last_login)
 	end
 end)
 
+minetest.register_on_respawnplayer(function(player)
+	local player_name = player:get_player_name()
+	if random_spawn.get_spawn(player_name) then
+		random_spawn.send_to_spawn(player_name)
+		return true
+	end
+end)
+
 minetest.register_privilege("spawn", {
 	description = S("spawn"),
 	give_to_singleplayer = true,
