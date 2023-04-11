@@ -7,5 +7,5 @@
     "repo": "https://github.com/fluxionary/minetest-random_spawn.git",
     "website": "https://github.com/fluxionary/minetest-random_spawn",
     "issue_tracker": "https://github.com/fluxionary/minetest-random_spawn/issues",
-    "short_description": "chooses a new spawn location for every new player."
+    "short_description": "every new player gets their own unique spawn position."
 }

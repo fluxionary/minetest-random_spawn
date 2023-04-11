@@ -3,6 +3,7 @@ futil.check_version({ year = 2023, month = 4, day = 2 })
 random_spawn = fmod.create()
 
 local f = string.format
+local s = random_spawn.settings
 local S = random_spawn.S
 
 local mod_storage = minetest.get_mod_storage()
@@ -36,12 +37,14 @@ end
 
 local function emerge_callback(blockpos, action, calls_remaining, param)
 	local player_name = param.player_name
-	if action == minetest.EMERGE_CANCELLED or action == minetest.EMERGE_ERRORED then
+	if random_spawn.get_spawn(player_name) then
+		-- player already has a spawn
+		return
+	elseif action == minetest.EMERGE_CANCELLED or action == minetest.EMERGE_ERRORED then
 		random_spawn.select_new_spawn(player_name)
 		return
 	end
-	local pmin = param.pmin
-	local pmax = param.pmax
+	local pmin, pmax = futil.get_block_bounds(blockpos)
 	local vm = VoxelManip(pmin, pmax)
 	local data = vm:get_data()
 	local va = VoxelArea(pmin, pmax)
@@ -63,19 +66,19 @@ local function emerge_callback(blockpos, action, calls_remaining, param)
 			end
 		end
 	end
-	-- if nothing is found, try again
-	random_spawn.select_new_spawn(player_name)
+	if calls_remaining == 0 then
+		-- if nothing is found, try again
+		random_spawn.select_new_spawn(player_name)
+	end
 end
 
 function random_spawn.select_new_spawn(player_name)
 	local min_p, max_p = futil.get_world_bounds()
-	local pos = vector.new(math.random(min_p.x, max_p.x), 1, math.random(min_p.z, max_p.z))
+	local pos = vector.new(math.random(min_p.x, max_p.x), math.random(s.min_y, s.max_y), math.random(min_p.z, max_p.z))
 	local bpos = futil.get_blockpos(pos)
 	local b_min, b_max = futil.get_block_bounds(bpos)
 	minetest.emerge_area(b_min, b_max, emerge_callback, {
 		player_name = player_name,
-		pmin = b_min,
-		pmax = b_max,
 	})
 end
 
@@ -104,11 +107,13 @@ minetest.register_on_respawnplayer(function(player)
 	end
 end)
 
-minetest.register_privilege("spawn", {
-	description = S("spawn"),
-	give_to_singleplayer = true,
-	give_to_admin = true,
-})
+if not minetest.registered_privileges["spawn"] then
+	minetest.register_privilege("spawn", {
+		description = S("spawn"),
+		give_to_singleplayer = true,
+		give_to_admin = true,
+	})
+end
 
 minetest.register_chatcommand("spawn", {
 	description = S("go to your spawn"),

@@ -1,0 +1,2 @@
+random_spawn:min_y (minimum y level) int 1 -30007 30007
+random_spawn:max_y (maximum y level) int 14 -30007 30007
