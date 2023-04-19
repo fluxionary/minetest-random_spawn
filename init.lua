@@ -26,13 +26,14 @@ end
 function random_spawn.send_to_spawn(player_name)
 	local spawn_pos = random_spawn.get_spawn(player_name)
 	if not spawn_pos then
-		return
+		return false
 	end
 	local player = minetest.get_player_by_name(player_name)
 	if not player then
-		return
+		return false
 	end
 	player:set_pos(spawn_pos)
+	return true
 end
 
 local function emerge_callback(blockpos, action, calls_remaining, param)
