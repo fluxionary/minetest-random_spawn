@@ -2,7 +2,7 @@
     "type": "MOD",
     "name": "random_spawn",
     "title": "random_spawn",
-    "license": "AGPL-3.0-or-later",
+    "license": "LGPL-3.0-or-later",
     "media_license": "CC-BY-SA-4.0",
     "repo": "https://github.com/fluxionary/minetest-random_spawn.git",
     "website": "https://github.com/fluxionary/minetest-random_spawn",
