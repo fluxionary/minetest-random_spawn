@@ -652,5 +652,6 @@ stds.random_spawn = {
 	read_globals = {
 		"fmod",
 		"futil",
+		"canonical_name",
 	},
 }

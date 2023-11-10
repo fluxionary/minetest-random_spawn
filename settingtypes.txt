@@ -1,2 +1,8 @@
-random_spawn:min_y (minimum y level) int 1 -30007 30007
-random_spawn:max_y (maximum y level) int 14 -30007 30007
+# minimum elevation from which to pick new spawns
+random_spawn:min_y (minimum y level) int 1 -30912 30927
+
+# maximum elevation from which to pick new spawns
+random_spawn:max_y (maximum y level) int 14 -30912 30927
+
+# name of the spawn admin priv. if it doesn't exist, it will be created.
+random_spawn:admin_priv (name of the spawn admin privilege) string server
