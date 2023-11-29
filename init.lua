@@ -100,7 +100,15 @@ end
 function random_spawn.select_new_spawn(player_name)
 	mod_storage:set_string(spawn_key(player_name), "") -- reset any old spawn
 	local min_p, max_p = futil.get_world_bounds()
-	local pos = vector.new(math.random(min_p.x, max_p.x), math.random(s.min_y, s.max_y), math.random(min_p.z, max_p.z))
+	local pos
+	while not pos do
+		local x = math.random(min_p.x, max_p.x)
+		local z = math.random(min_p.z, max_p.z)
+		local y = minetest.get_spawn_level(x, z)
+		if y then
+			pos = vector.new(x, y, z)
+		end
+	end
 	local bpos = futil.get_blockpos(pos)
 	local b_min, b_max = futil.get_block_bounds(bpos)
 	minetest.emerge_area(b_min, b_max, emerge_callback, {
